@@ -1,0 +1,99 @@
+================================================================
+ 问卷调查系统 - Cloudflare Workers 部署教程 (纯 KV,无需 R2)
+================================================================
+
+【架构】
+Worker 跑业务逻辑,所有数据存在 Workers KV:
+  survey:{id}       问卷配置
+  index             问卷列表索引
+  resp:{sid}:{时间}  每条提交
+  sess:{token}      管理登录会话
+免费额度: 每天 10 万次读 / 1000 次写,内部调查绰绰有余。
+
+----------------------------------------------------------------
+方式一: 网页控制台部署(最简单,推荐)
+----------------------------------------------------------------
+1. 修改 worker.js 第 11 行的管理密码(默认 1234,部署前请改):
+      const ADMIN_PASSWORD = "1234";
+   改成你自己的强密码。
+
+2. 登录 Cloudflare 控制台 (dash.cloudflare.com)
+
+3. 左侧菜单 → Storage & Databases → KV → Create namespace
+   名称填: survey-kv → 创建
+
+4. 左侧菜单 → Compute (Workers) → Create → Create Worker
+   名称号填: survey (随意) → Deploy 先部署默认代码
+
+5. 进入刚创建的 Worker → Settings → Bindings (绑定)
+   → Add → KV Namespace
+       Variable name 填: KV          ← 必须是 KV 这两个字母
+       Namespace 选:   survey-kv
+   → Save/Deploy
+
+6. Worker 的 Edit code (编辑代码) 页面
+   → 把 worker.js 的全部内容粘贴进去,覆盖原代码 → Deploy
+
+7. 访问 https://survey.你的子域.workers.dev/admin
+   用你改过的密码登录,新建第一份问卷。
+
+8. (可选) 绑定自己的域名:
+   Worker → Settings → Domains & Routes → Add → Custom domain
+   填入你域名下的子域名,如: diaocha.你的域名.com
+   Cloudflare 会自动加 SSL 证书。
+   之后管理后台就是 https://diaocha.你的域名.com/admin
+
+----------------------------------------------------------------
+方式二: wrangler 命令行部署
+----------------------------------------------------------------
+适合习惯终端操作的人,改代码后一条命令重新部署:
+
+1. 安装: npm install -g wrangler
+2. 登录: wrangler login   (浏览器里授权)
+3. 项目目录建 wrangler.toml:
+
+      name = "survey"
+      main = "worker.js"
+      compatibility_date = "2025-01-01"
+
+      [[kv_namespaces]]
+      binding = "KV"
+      id = "你的namespace ID"
+
+4. 先创建 KV: wrangler kv namespace create survey-kv
+   它会输出 id,填进上面 toml 里
+
+5. 部署: wrangler deploy
+
+6. 绑域名: wrangler.json/toml 里加 routes,或去控制台页面绑
+
+----------------------------------------------------------------
+常见问题
+----------------------------------------------------------------
+Q: 填写人太多会超免费额度吗?
+A: 读(打开问卷/统计)免费额度每天 10 万次;写(提交)每天 1000 次。
+   超过 1000 人/天提交才需要 $5/月的付费计划(1000万次写/月),
+   一般公司内部调查用不到。
+
+Q: 数据怎么备份?
+A: 统计页点"下载 CSV"即该问卷全部原始数据。
+   也可用 wrangler 批量导出 KV:
+   wrangler kv key list --binding KV
+
+Q: IP 是真实 IP 吗?
+A: 是。Worker 用 Cloudflare 回传的 CF-Connecting-IP,
+   即填写人的真实公网 IP,比局域网版更准。
+
+Q: "每IP限一次"防刷够吗?
+A: 对普通场景够用。但公网上有人换 IP 刷就防不住,
+   需要更严的话后续可以加"答题口令"功能。
+
+Q: 管理密码忘了?
+A: 密码写在 worker.js 第 11 行,重新部署一次即可,
+   数据不受影响。
+
+Q: 和本地局域网版数据能互通吗?
+A: 问卷配置 JSON 格式完全相同:
+   本地 surveys/*.json 可在管理后台"新建问卷"后
+   把题目重新录入(或告诉我写个导入接口)。
+   已收集的 CSV 数据两边独立。
