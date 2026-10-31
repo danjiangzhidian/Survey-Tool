@@ -260,5 +260,6 @@ wrangler kv key list --binding KV
 <div align="center">
 
 **⭐ 觉得好用就点个 Star 吧 ⭐**
+<img width="913" height="567" alt="image" src="https://github.com/user-attachments/assets/5b13b79d-84e7-4169-a5a7-8ba63a33a0ea" />
 
 </div>
