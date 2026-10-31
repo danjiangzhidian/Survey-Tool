@@ -58,6 +58,7 @@
 
 - **填写端**：移动端自适应完美，评分题实时显示得分；未完成必填项时红色 Toast 提示并自动滚动到漏答题。
 - **管理端**：局部跳转无整页刷新，配有顶部加载进度条；编辑未保存退出时触发弹窗保护；内置风格统一的自定义弹窗组件。
+<img width="1460" height="754" alt="image" src="https://github.com/user-attachments/assets/34e01d04-e2d9-444e-a936-3031453fcc1a" />
 <img width="1457" height="759" alt="image" src="https://github.com/user-attachments/assets/f60466c7-5882-49d3-9633-8d1d10d71733" />
 
 
