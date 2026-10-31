@@ -43,22 +43,29 @@
 - **灵活题型**：支持单选、多选、评分（★1-5 / 百分制）、文本、下拉框，支持随时增删改。
 - **题目控制**：支持必填标记、选项自由增删，内置显示条件（逻辑跳题）功能。
 - **自定义样式**：标题支持左/中/右对齐及自定义颜色，支持配置说明、答题口令与每 IP 限填一次。
+<img width="1443" height="761" alt="image" src="https://github.com/user-attachments/assets/c7aeb7d4-5e85-4940-a7ef-fdc0f641dee3" />
+
 
 ### 📊 数据统计与导出
 
 - **可视化统计**：自动生成每题作答人数、选项分布条形图与占比，评分题自动计算平均分与星级。
 - **零依赖导出**：手写 zip + OOXML 实现，零依赖原生导出 Excel（.xlsx）及 CSV。
 - **大数据分片**：超过 500 条自动生成分片下载索引页，修复 KV 翻页 1000 条截断问题，数据再多也不丢。
+<img width="1449" height="763" alt="image" src="https://github.com/user-attachments/assets/ea34aeb7-9b31-4f9b-bba3-40a04ddee735" />
+
 
 ### 📱 丝滑的交互体验
 
 - **填写端**：移动端自适应完美，评分题实时显示得分；未完成必填项时红色 Toast 提示并自动滚动到漏答题。
 - **管理端**：局部跳转无整页刷新，配有顶部加载进度条；编辑未保存退出时触发弹窗保护；内置风格统一的自定义弹窗组件。
+<img width="1457" height="759" alt="image" src="https://github.com/user-attachments/assets/f60466c7-5882-49d3-9633-8d1d10d71733" />
+
 
 ### 🔒 安全防护
 
 - **会话管理**：管理密码登录 + 服务端会话（KV 存储，带过期时间，可选 20 分钟 - 2 小时）。
 - **安全策略**：支持问卷独立口令保护，所有输出 HTML 自动转义，严格防范 XSS 攻击。
+<img width="1466" height="754" alt="image" src="https://github.com/user-attachments/assets/95aebbea-52e4-462f-8e92-a66015356cb5" />
 
 ---
 
@@ -248,7 +255,7 @@ wrangler kv key list --binding KV
 
 ## 💡 支持与反馈
 
-如果这个项目帮到了你，欢迎 [提 Issue](https://github.com/danjiangzhidian/Survey-Tool/issues) 或点击 ⭐ **Star** 给予支持！
+如果这个项目帮到了你，欢迎 [提 Issue](https://github.com/danjiangzhidian/Survey-Tool/issues) 
 
 <div align="center">
 
